@@ -1,0 +1,15 @@
+alpine:          { image: alpine,                      version: 3.15.4 }
+bazarr:          { image: ghcr.io/linuxserver/bazarr,  version: 1.0.4 }
+bind9:           { image: luisnabais/bind9,            version: 9.16.27-r0 }
+cloudflare-ddns: { image: luisnabais/cloudflare-ddns,  version: 1.0.0 }
+emby:            { image: emby/embyserver_arm64v8,     version: 4.6.7.0 }
+gitea:           { image: gitea/gitea,                 version: 1.16.7,                url: git.local.nabais.eu }
+gitlab-runner:   { image: luisnabais/gitlab-runner,    version: alpine3.15-v14.10.1 }
+jackett:         { image: ghcr.io/linuxserver/jackett, version: 0.20.1043 }
+portainer:       { image: portainer/portainer-ce,      version: 2.13.0 }
+postgres:        { image: postgres,                    version: 14.2 }
+radarr:          { image: ghcr.io/linuxserver/radarr,  version: 4.1.0 }
+sonarr:          { image: ghcr.io/linuxserver/sonarr,  version: 3.0.8 }
+traefik:         { image: traefik,                     version: 2.6.6 }
+transmission:    { image: linuxserver/transmission,    version: 3.00-r5-ls123 }
+uptime-kuma:     { image: louislam/uptime-kuma,        version: 1.15.1,                url: "{% if ansible_hostname == 'framboesa' %}uptime-fram.local.nabais.eu{% elif ansible_hostname == 'mirtilo' %}uptime.local.nabais.eu{% endif %}"}
