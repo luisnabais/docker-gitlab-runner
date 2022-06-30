@@ -27,7 +27,3 @@ docker-build:
       --tag ${DOCKER_REPO}:${IMAGE_TAG}
       --push
       .
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes:
-        - Dockerfile
