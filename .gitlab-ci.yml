@@ -20,6 +20,8 @@ docker-build:
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
   script:
     - IMAGE_TAG=$(grep 'FROM' Dockerfile | cut -d':' -f2)
+    - echo $IMAGE_TAG
+    - exit 1
     - docker-buildx create --use
     - docker buildx build
       --platform ${BUILDX_PLATFORMS}
@@ -27,3 +29,8 @@ docker-build:
       --tag ${DOCKER_REPO}:${IMAGE_TAG}
       --push
       .
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - Dockerfile
+        - .gitlab-ci.yml
