@@ -7,7 +7,6 @@ services:
 
 variables:
   DOCKER_REPO: "${DOCKER_USER}/gitlab-runner"
-  IMAGE_TAG: $(grep 'FROM' Dockerfile | cut -d':' -f2)
   BUILDX_VERSION: "v0.8.2"
   BUILDX_URL: "https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-amd64"
   BUILDX_PLATFORMS: "linux/amd64,linux/arm64/v8"
@@ -20,13 +19,12 @@ docker-build:
     - chmod +x /usr/bin/docker-buildx
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
   script:
-    - echo $IMAGE_TAG
-    - exit 1
+    - DOCKER_IMAGE_TAG=$(grep 'FROM' Dockerfile | cut -d':' -f2)
     - docker-buildx create --use
     - docker buildx build
       --platform ${BUILDX_PLATFORMS}
       --tag ${DOCKER_REPO}:latest
-      --tag ${DOCKER_REPO}:${IMAGE_TAG}
+      --tag ${DOCKER_REPO}:${DOCKER_IMAGE_TAG}
       --push
       .
   rules:
