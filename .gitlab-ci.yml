@@ -18,13 +18,16 @@ docker-build:
     - wget -O /usr/bin/docker-buildx ${BUILDX_URL}
     - chmod +x /usr/bin/docker-buildx
     - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
+    - IMAGE_TAG=$(grep 'FROM' Dockerfile | cut -d':' -f2)
   script:
     - docker-buildx create --use
     - docker buildx build
       --platform ${BUILDX_PLATFORMS}
       --tag ${DOCKER_REPO}:latest
-      --tag ${DOCKER_REPO}:${CI_COMMIT_TAG}
+      --tag ${DOCKER_REPO}:${IMAGE_TAG}
       --push
       .
   rules:
-    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - Dockerfile
